@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mesto</title>
+    <link rel="stylesheet" href="./vendor/normalize.css" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="root">
+    <div class="page">
+        <header class="header">
+            <img src="./images/header-logo.svg" alt="logo" class="header__logo">
+        </header>
+        <main class="content">
+            <section class="profile">
+                <img src="./images/profile-avatar-kusto.jpg" alt="аватар" class="profile__avatar">
+                <div class="profile__info">
+                    <div class="profile__block">
+                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <button class="profile__edit-button active" type="button"></button>
+                    </div>
+                    <p class="profile__about">Исследователь океана</p>
+                </div>
+                <button class="profile__add-button active" type="button">
+                    <img src="./images/Vector.svg" alt="кнопка добавления изображений" class="profile__button-img">
+                </button>
+            </section>
+            <section class="elements">
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-kappadokia.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Турция</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-berlin.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Германия</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-morocco.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Морокко</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-new-zeeland.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Новая Зеландия</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-portugal.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Португалия</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+                <div class="element">
+                    <img class="element__image" src="./images/elements-grid-salzburg.jpg" alt="Berlin">
+                    <div class="element__block">
+                        <h2 class="element__title">Австрия</h2>
+                        <button class="element__like active" type="button"></button>
+                    </div>
+                </div>
+            </section>
+        </main> 
+        <footer class="footer">
+            <p>© 2020 Mesto Russia</p>
+        </footer>
+        <section class="popup">
+            <div class="popup__body">
+                <div class="popup__container">
+                    <button class="popup__button-close active" type="button"></button>
+                    <h2 class="popup__title">Редактировать профиль</h2>
+                    <form class="popup__form" method="post" name="profile-info">
+                        <input class="popup__input popup__input_name" type="text" name="name" placeholder="Ваше имя">
+                        <input class="popup__input popup__input_about" type="text" name="about" placeholder="О себе">
+                        <button class="popup__save-button active" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
