@@ -1,5 +1,5 @@
-@import url(../vendor/normalize.css);
-@import url(../vendor/fonts/fonts.css);
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
 
 .root {
     min-height: 100vh;
@@ -27,7 +27,14 @@
     padding-bottom: 41px;
     border-bottom: 1px solid #545454;
     max-width: 880px;
+}
 
+@media (max-width: 679px) {
+    .header {
+        margin-top: 28px;
+        padding-bottom: 31px;
+        max-width: 320px;
+    }
 }
 
 .content {
@@ -36,11 +43,27 @@
     max-width: 880px;
 }
 
+@media (max-width: 679px) {
+    .content {
+        max-width: 320px;
+    }
+}
+
 .profile {
     margin: 40px auto 50px;
     max-height: 120px;
     display: grid;
     grid-template-columns: 120px auto 150px;
+}
+
+@media (max-width: 679px) {
+    .profile {
+        margin-top: 42px;
+        margin-bottom: 36px;
+        grid-template-columns: 282px;
+        justify-items: center;
+        max-height: 286px;
+    }
 }
 
 .profile__name {
@@ -51,11 +74,31 @@
     line-height: 48px;
 }
 
+@media (max-width: 899px) {
+    .profile__name {
+        font-size: 35px;
+        line-height: 41px;
+    }
+}
+@media (max-width: 679px) {
+    .profile__name {
+        font-size: 27px;
+        line-height: 33px;
+        text-align: center;
+    }
+}
+
 .profile__info {
     margin: 0;
     padding: 0;
     margin-top: 16px;
     align-self: center;
+}
+
+@media (max-width: 679px) {
+    .profile__info {
+        margin-top: 26px;
+    }
 }
 
 .profile__block {
@@ -67,6 +110,7 @@
 
 .profile__add-button {
     margin: auto;
+    padding: 0;
     width: 150px;
     height: 50px;
     border: 2px solid #FFFFFF;
@@ -74,6 +118,12 @@
     background-color: #000000;
 }
 
+@media (max-width: 679px) {
+    .profile__add-button {
+        width: 100%;
+        margin-top: 36px;
+    }
+}
 
 .profile__about {
     margin: 0;
@@ -85,6 +135,21 @@
     overflow: hidden;
 }
 
+@media (max-width: 899px) {
+    .profile__about {
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
+@media (max-width: 679px) {
+    .profile__about {
+        margin-top: 7px;
+        margin-left: 0;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+    }
+}
 .profile__edit-button {
     margin-left: 18px;
     width: 24px;
@@ -98,8 +163,13 @@
     align-self: center;
 }
 
-
-
+@media (max-width: 679px) {
+    .profile__edit-button {
+        width: 18px;
+        height: 18px;
+        background-size: 7.5px;
+    }
+}
 .profile__avatar {
     width: 120px;
     height: 120px;
@@ -114,6 +184,18 @@
     grid-template-columns: repeat(3, 1fr);
     column-gap: 17px;
     row-gap: 20px;
+}
+
+@media (max-width: 899px) {
+    .elements {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 679px) {
+    .elements {
+        grid-template-columns: 1fr;
+    }
 }
 
 .element {
@@ -179,6 +261,11 @@
     color: #545454;
 }
 
+@media (max-width: 680px) {
+    .footer {
+        margin-top: 48px;
+    }
+}
 .popup {
     position: fixed;
     top: 0;
@@ -189,11 +276,22 @@
     display: none;
 }
 
+.popup_opened {
+    display: block;
+}
+
 .popup__body {
     min-height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media (max-width: 679px) {
+    .popup__body {
+        align-items: flex-start;
+        margin-top: 123px;
+    }
 }
 
 .popup__container {
@@ -205,7 +303,16 @@
     color:#000;
 }
 
-.popup__button-close {
+@media (max-width: 679px) {
+    .popup__container {
+        width: 282px;
+        height: 322px;
+    }
+}
+
+.popup__close-button {
+    margin: 0;
+    padding: 0;
     position: absolute;
     top: -35px;
     right: -35px;
@@ -229,6 +336,15 @@
     text-align: center;
 }
 
+@media (max-width: 679px) {
+    .popup__title {
+        margin: 25px auto 0 auto;
+        max-width: 238px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+}
+
 .popup__form {
     margin: 0;
     padding: 0;
@@ -238,13 +354,23 @@
     justify-content: center;
 }
 .popup__input {
+    margin: 0;
+    padding: 0;
     width: 358px;
     height: 27px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, .5);
 }
 
+@media (max-width: 679px) {
+    .popup__input {
+        width: 238px;
+    }
+}
+
 .popup__save-button {
+    margin: 0;
+    padding: 0;
     margin-top: 18px;
     height: 50px;
     background-color: #000;
@@ -253,6 +379,11 @@
     border: none;
 }
 
+@media (max-width: 679px) {
+    .popup__save-button {
+        margin-top: 15px;
+    }
+}
 .active:hover {
     opacity: 60%;
     transition: opacity .5s ease;
