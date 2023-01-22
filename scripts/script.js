@@ -8,8 +8,6 @@ let nameInput = formElement.querySelector('.popup__input_name');
 let jobInput = formElement.querySelector('.popup__input_about');
 
 
-
-
 const openPopup = function() {
 	popupElement.classList.add('popup_opened');
 	nameInput.value = profileName.textContent;
@@ -19,6 +17,7 @@ const openPopup = function() {
 const closePopup = function() {
 	popupElement.classList.remove('popup_opened');
 }
+
 
 // Обработчик событий по клику
 popupOpenButtonElement.addEventListener('click', openPopup);
