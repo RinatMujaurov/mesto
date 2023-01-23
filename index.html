@@ -19,11 +19,11 @@
                 <div class="profile__info">
                     <div class="profile__block">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
-                        <button class="profile__edit-button active" type="button"></button>
+                        <button class="profile__edit-button" type="button"></button>
                     </div>
                     <p class="profile__about">Исследователь океана</p>
                 </div>
-                <button class="profile__add-button active" type="button">
+                <button class="profile__add-button" type="button">
                     <img src="./images/Vector.svg" alt="кнопка добавления изображений" class="profile__button-img">
                 </button>
             </section>
@@ -32,62 +32,60 @@
                     <img class="element__image" src="./images/elements-grid-kappadokia.jpg" alt="Каппадокия">
                     <div class="element__block">
                         <h2 class="element__title">Турция</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
                 <div class="element">
                     <img class="element__image" src="./images/elements-grid-berlin.jpg" alt="Берлин">
                     <div class="element__block">
                         <h2 class="element__title">Германия</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
                 <div class="element">
                     <img class="element__image" src="./images/elements-grid-morocco.jpg" alt="Морокко">
                     <div class="element__block">
                         <h2 class="element__title">Морокко</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
                 <div class="element">
                     <img class="element__image" src="./images/elements-grid-new-zeeland.jpg" alt="Новая Зеландия">
                     <div class="element__block">
                         <h2 class="element__title">Новая Зеландия</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
                 <div class="element">
                     <img class="element__image" src="./images/elements-grid-portugal.jpg" alt="Португалия">
                     <div class="element__block">
                         <h2 class="element__title">Португалия</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
                 <div class="element">
                     <img class="element__image" src="./images/elements-grid-salzburg.jpg" alt="Зальцбург">
                     <div class="element__block">
                         <h2 class="element__title">Австрия</h2>
-                        <button class="element__like active" type="button"></button>
+                        <button class="element__like" type="button"></button>
                     </div>
                 </div>
             </section>
         </main>
         <footer class="footer">
-            <p>© 2020 Mesto Russia</p>
+            <p class="footer__copyright">© 2020 Mesto Russia</p>
         </footer>
-        <section class="popup">
-            <div class="popup__body">
-                <div class="popup__container">
-                    <button class="popup__close-button active" type="button"></button>
-                    <h2 class="popup__title">Редактировать профиль</h2>
-                    <form class="popup__form" method="post" name="profile-info">
-                        <input class="popup__input popup__input_name" type="text" name="name" placeholder="Ваше имя">
-                        <input class="popup__input popup__input_about" type="text" name="about" placeholder="О себе">
-                        <button class="popup__save-button active" type="submit">Сохранить</button>
-                    </form>
-                </div>
+        <div class="popup">
+            <div class="popup__container">
+                <button class="popup__close-button" type="button"></button>
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form class="popup__form" method="post" name="profile-info">
+                    <input class="popup__input popup__input_data_name" type="text" name="name" placeholder="Ваше имя">
+                    <input class="popup__input popup__input_data_about" type="text" name="about" placeholder="О себе">
+                    <button class="popup__save-button" type="submit">Сохранить</button>
+                </form>
             </div>
-        </section>
+        </div>
     </div>
     <script src="./scripts/script.js"></script>
 </body>

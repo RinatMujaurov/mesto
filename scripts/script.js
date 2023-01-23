@@ -4,8 +4,8 @@ const popupOpenButtonElement = document.querySelector('.profile__edit-button');
 let formElement = popupElement.querySelector('.popup__form');
 let profileName = document.querySelector('.profile__name');
 let profileJob = document.querySelector('.profile__about');
-let nameInput = formElement.querySelector('.popup__input_name');
-let jobInput = formElement.querySelector('.popup__input_about');
+let nameInput = formElement.querySelector('.popup__input_data_name');
+let jobInput = formElement.querySelector('.popup__input_data_about');
 
 
 const openPopup = function() {
@@ -29,7 +29,7 @@ function handleFormSubmit(evt) {
 	evt.preventDefault();
 
 	profileJob.textContent = jobInput.value;
-	profileName.textContent = nameInput.value;  
+	profileName.textContent = nameInput.value;
 
 	closePopup();
 }
