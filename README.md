@@ -13,6 +13,6 @@
 - Использована методология БЭМ
 - JavaScript
 
-
+https://rinatmujaurov.github.io/mesto/ 
 
 
