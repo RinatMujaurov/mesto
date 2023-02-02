@@ -27,57 +27,25 @@
                     <img src="./images/Vector.svg" alt="кнопка добавления изображений" class="profile__button-img">
                 </button>
             </section>
-            <section class="elements">
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-kappadokia.jpg" alt="Каппадокия">
-                    <div class="element__block">
-                        <h2 class="element__title">Турция</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-berlin.jpg" alt="Берлин">
-                    <div class="element__block">
-                        <h2 class="element__title">Германия</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-morocco.jpg" alt="Морокко">
-                    <div class="element__block">
-                        <h2 class="element__title">Морокко</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-new-zeeland.jpg" alt="Новая Зеландия">
-                    <div class="element__block">
-                        <h2 class="element__title">Новая Зеландия</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-portugal.jpg" alt="Португалия">
-                    <div class="element__block">
-                        <h2 class="element__title">Португалия</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="./images/elements-grid-salzburg.jpg" alt="Зальцбург">
-                    <div class="element__block">
-                        <h2 class="element__title">Австрия</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-            </section>
+            <ul class="elements">
+              <template id="template-element">
+                  <li class="element">
+                      <img class="element__image" src="#">
+                      <button class="element__delete-button" type="button"></button>
+                      <div class="element__block">
+                          <h2 class="element__title"></h2>
+                          <button class="element__like" type="button"></button>
+                      </div>
+                  </li>
+              </template>
+            </ul>
         </main>
         <footer class="footer">
             <p class="footer__copyright">© 2020 Mesto Russia</p>
         </footer>
-        <div class="popup">
+        <div class="popup popup_type_profile">
             <div class="popup__container">
-                <button class="popup__close-button" type="button"></button>
+                <button class="popup__close-button popup__close-button_type_profile" type="button"></button>
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form class="popup__form" method="post" name="profile-info">
                     <input class="popup__input popup__input_data_name" type="text" name="name" placeholder="Ваше имя">
@@ -86,6 +54,17 @@
                 </form>
             </div>
         </div>
+        <div class="popup popup_type_element">
+          <div class="popup__container">
+              <button class="popup__close-button popup__close-button_type_element" type="button"></button>
+              <h2 class="popup__title">Новое место</h2>
+              <form class="popup__form" method="post" name="profile-info">
+                  <input class="popup__input popup__input_data_name" type="text" name="name" placeholder="Название">
+                  <input class="popup__input popup__input_data_about" type="text" name="about" placeholder="Ссылка на картинку">
+                  <button class="popup__save-button" type="submit">Создать</button>
+              </form>
+          </div>
+      </div>
     </div>
     <script src="./scripts/index.js"></script>
 </body>
