@@ -38,18 +38,16 @@ const elementLike = document.querySelector('.element__like');
 
 //попап редактирования профиля
 const popupElementProfile = document.querySelector('.popup_type_profile');
-const popupCloseButtonElement = document.querySelector('.popup__close-button_type_profile');
 const popupOpenButtonElement = document.querySelector('.profile__edit-button');
-let formElementProfile = popupElementProfile.querySelector('.popup__form_type_profile');
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__about');
-let nameInput = formElementProfile.querySelector('.popup__input_data_name');
-let jobInput = formElementProfile.querySelector('.popup__input_data_about');
+const formElementProfile = popupElementProfile.querySelector('.popup__form_type_profile');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__about');
+const nameInput = formElementProfile.querySelector('.popup__input_data_name');
+const jobInput = formElementProfile.querySelector('.popup__input_data_about');
 
 //попап добавления карточки
 const popupElement = document.querySelector('.popup_type_element');
 const popupOpenAddButtonElement = document.querySelector('.profile__add-button');
-const popupCloseAddButtonElement = document.querySelector('.popup__close-button_type_element');
 const formElementCard = document.querySelector('.popup__form_type_element');
 const inputCardLink = document.querySelector('.popup__input_data_link');
 const inputCardTitle = document.querySelector('.popup__input_data_title');
@@ -58,7 +56,6 @@ const inputCardTitle = document.querySelector('.popup__input_data_title');
 const popupImage = document.querySelector('.popup_type_image')
 const popupImageElement = document.querySelector('.popup__image');
 const popupImageElementTitle = document.querySelector('.popup__title_type_image');
-const popupImageCloseButton = popupImage.querySelector('.popup__close-button_type_image');
 
 //вывод карточек на страницу
 
@@ -92,50 +89,42 @@ elementImage.addEventListener('click', () => {
   popupImageElement.alt = item.name;
   popupImageElementTitle.textContent = item.name;
 
-  openPopupImage();
+  openPopup(popupImage);
 });
 
   return card;
 }
 
-//открытие/закрытие попапа изображения
-function openPopupImage() {
-  popupImage.classList.add('popup_opened')
+// открытие и закрытие попапов
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 }
 
-const closePopupImage = function() {
-  popupImage.classList.remove('popup_opened')
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
 }
 
-popupImageCloseButton.addEventListener('click', closePopupImage);
-
-
-//попап редактирования профиля
-function openPopup() {
-  popupElementProfile.classList.add('popup_opened');
+//открытие попапа редактирования профиля
+popupOpenButtonElement.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-}
+  openPopup(popupElementProfile);
+});
 
-const closePopup = function() {
-	popupElementProfile.classList.remove('popup_opened');
-}
+//открытие попапа добавления элементов
+popupOpenAddButtonElement.addEventListener('click', () => {
+  openPopup(popupElement);
+})
 
-//попап добавление картинок
-function openPopupElement() {
-  popupElement.classList.add('popup_opened');
-}
+//Закрытие всех попапов
+const closeButtons = document.querySelectorAll('.popup__close');
 
-const closePopupElement = function() {
-	popupElement.classList.remove('popup_opened');
-}
-
-// Обработчик событий по клику
-popupOpenAddButtonElement.addEventListener('click', openPopupElement);
-popupCloseAddButtonElement.addEventListener('click', closePopupElement);
-popupOpenButtonElement.addEventListener('click', openPopup);
-popupCloseButtonElement.addEventListener('click', closePopup);
-
+closeButtons.forEach((button) => {
+  // находим 1 раз ближайший к крестику попап
+  const popup = button.closest('.popup');
+  // устанавливаем обработчик закрытия на крестик
+  button.addEventListener('click', () => closePopup(popup));
+});
 
 //ввод данных
 function handleFormSubmit(evt) {
@@ -154,9 +143,8 @@ function handlerFormSubmitCard(evt) {
 
   elements.prepend(card);
 
+  evt.target.reset()
   closePopup();
-  inputCardTitle.value = '';
-  inputCardLink.value = '';
 }
 //отправка формы
 formElementProfile.addEventListener('submit', handleFormSubmit);
