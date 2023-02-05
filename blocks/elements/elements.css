@@ -10,12 +10,12 @@
 
 @media (max-width: 899px) {
 	.elements {
-		 grid-template-columns: repeat(2, 1fr);
+		 grid-template-columns: repeat(2, 282px);
 	}
 }
 
 @media (max-width: 679px) {
 	.elements {
-		 grid-template-columns: 1fr;
+		 grid-template-columns: 282px;
 	}
 }

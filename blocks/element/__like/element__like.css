@@ -12,6 +12,6 @@
 
 .element__like:hover {
 	opacity: 50%;
-	transition: opacity .5s ease;
+	transition: opacity .5s ease-in;
 	cursor: pointer;
 }
