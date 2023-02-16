@@ -133,7 +133,7 @@ function handleFormSubmit(evt) {
 	profileJob.textContent = jobInput.value;
 	profileName.textContent = nameInput.value;
 
-	closePopup();
+	closePopup(popupElementProfile);
 }
 
 function handlerFormSubmitCard(evt) {
@@ -144,7 +144,7 @@ function handlerFormSubmitCard(evt) {
   elements.prepend(card);
 
   evt.target.reset()
-  closePopup();
+  closePopup(popupElement);
 }
 //отправка формы
 formElementProfile.addEventListener('submit', handleFormSubmit);
