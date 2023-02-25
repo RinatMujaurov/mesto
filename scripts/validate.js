@@ -54,7 +54,7 @@ const enableValidation = (object) => {
       evt.preventDefault();
     });
 
-  const fieldsetList = Array.from(formElement.querySelectorAll('.popup__fieldset'));
+  const fieldsetList = Array.from(formElement.querySelectorAll(object.fieldSetClass));
   fieldsetList.forEach((fieldSet) => {
       setEventListeners(fieldSet, object);
     });
@@ -73,7 +73,8 @@ enableValidation({
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_inactive',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
+  errorClass: 'popup__input-error_active',
+  fieldSetClass: '.popup__fieldset'
 });
 
 
