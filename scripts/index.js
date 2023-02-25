@@ -119,6 +119,11 @@ popupOpenButtonElement.addEventListener('click', () => {
 //открытие попапа добавления элементов
 popupOpenAddButtonElement.addEventListener('click', () => {
   openPopup(popupElement);
+  const buttonElement = Array.from(document.querySelectorAll('.popup__save-button'));
+    buttonElement.forEach((item) => {
+        item.setAttribute('disabled', '');
+        item.classList.add('popup__save-button_inactive');
+    });
 })
 
 //Закрытие всех попапов
