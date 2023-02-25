@@ -37,10 +37,15 @@ const setEventListeners = (formElement, { submitButtonSelector, inputSelector, i
   });
 };
 
+//функция сброса кнопки
+function disableButtonElement(buttonElement, inactiveButtonClass) {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.disabled = true;
+}
+
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
-     buttonElement.classList.add(inactiveButtonClass);
-     buttonElement.disabled = true;
+    disableButtonElement(buttonElement, inactiveButtonClass);
 } else {
      buttonElement.classList.remove(inactiveButtonClass);
      buttonElement.disabled = false;

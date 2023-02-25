@@ -2,7 +2,6 @@
 //общий попап
 const popupAll = Array.from(document.querySelectorAll('.popup'));
 
-
 //темплейт
 const elements = document.querySelector(".elements");
 const template = document.querySelector("#template-element").content.querySelector('.element');
@@ -29,7 +28,7 @@ const popupOpenAddButtonElement = document.querySelector('.profile__add-button')
 const formElementCard = document.querySelector('.popup__form_type_element');
 const inputCardLink = document.querySelector('.popup__input_data_link');
 const inputCardTitle = document.querySelector('.popup__input_data_title');
-const buttonSaveElement = popupElementCard.querySelector('.popup__save-button');
+
 //попап картинки
 const popupImage = document.querySelector('.popup_type_image')
 const popupImageElement = document.querySelector('.popup__image');
@@ -95,7 +94,14 @@ popupOpenButtonElement.addEventListener('click', () => {
 popupOpenAddButtonElement.addEventListener('click', () => {
 
   openPopup(popupElementCard);
-  disableButtonElement(buttonSaveElement, 'popup__save-button_inactive');
+  // disabledButtonElement(inactiveButtonClass);
+
+  const buttonElement = Array.from(document.querySelectorAll('.popup__save-button'));
+    buttonElement.forEach(() => {
+      disabledButtonElement(inactiveButtonClass);
+        // item.setAttribute('disabled', '');
+        // item.classList.add('popup__save-button_inactive');
+    });
 })
 
 //Закрытие всех попапов
