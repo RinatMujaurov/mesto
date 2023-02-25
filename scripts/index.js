@@ -25,6 +25,9 @@ const initialCards = [
   }
 ];
 
+//общий попап
+const popupAll = Array.from(document.querySelectorAll('.popup'));
+
 //темплейт
 const elements = document.querySelector(".elements");
 const template = document.querySelector("#template-element").content.querySelector('.element');
@@ -98,10 +101,12 @@ elementImage.addEventListener('click', () => {
 // открытие и закрытие попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
 }
 
 //открытие попапа редактирования профиля
@@ -124,6 +129,24 @@ closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
   button.addEventListener('click', () => closePopup(popup));
+});
+
+//функция закрытия попапа по нажатию на Esc
+function closePopupEsc(evt) {
+  if (evt.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
+  }
+}
+
+//закрытие попапов по нажатию на оверлей
+popupAll.forEach((popupEl) => {
+  popupEl.addEventListener('mouseup', (event) => {
+    const closePopupByClickOnOverlay = event.target.classList;
+    if (closePopupByClickOnOverlay.contains('popup') || closePopupByClickOnOverlay.contains('popup__close')) {
+      closePopup(popupEl);
+    }
+  });
 });
 
 //ввод данных
