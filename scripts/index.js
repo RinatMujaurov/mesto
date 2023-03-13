@@ -1,18 +1,12 @@
+import FormValidator from './FormValidator.js';
+import Card from './Card.js';
+import initialCards from './initialCards.js';
+import options from './options.js';
+
+const elementsContainer = document.querySelector('.elements');
 
 //общий попап
 const popupAll = Array.from(document.querySelectorAll('.popup'));
-
-
-//темплейт
-const elements = document.querySelector(".elements");
-const template = document.querySelector("#template-element").content.querySelector('.element');
-
-//карточки
-const element = document.querySelector('.element');
-const elementImage = document.querySelector('.element__image');
-const elementDeleteButton = document.querySelector('.element__delete-button');
-const elementTitle = document.querySelector('.element__title');
-const elementLike = document.querySelector('.element__like');
 
 //попап редактирования профиля
 const popupElementProfile = document.querySelector('.popup_type_profile');
@@ -29,48 +23,26 @@ const popupOpenAddButtonElement = document.querySelector('.profile__add-button')
 const formElementCard = document.querySelector('.popup__form_type_element');
 const inputCardLink = document.querySelector('.popup__input_data_link');
 const inputCardTitle = document.querySelector('.popup__input_data_title');
-const buttonSaveElement = popupElementCard.querySelector('.popup__save-button');
-//попап картинки
-const popupImage = document.querySelector('.popup_type_image')
-const popupImageElement = document.querySelector('.popup__image');
-const popupImageElementTitle = document.querySelector('.popup__title_type_image');
+
+const profileFormValidate = new FormValidator(options, formElementProfile);
+const cardFormValidate = new FormValidator(options, formElementCard);
+
+profileFormValidate.enableValidation();
+cardFormValidate.enableValidation();
 
 //вывод карточек на страницу
-
-function renderCards(items) {
-  const cards = items.map((item) => {
-      return createCard({ name: item.name, link: item.link })
-  })
-  elements.append(...cards);
+function renderInitialCards(cardElements) {
+  elementsContainer.append(
+      ...cardElements.map((cardElement) => {
+          return createCard(cardElement);
+      })
+  );
 }
-
-renderCards(initialCards);
+renderInitialCards(initialCards);
 
 function createCard(item) {
-  const card = template.cloneNode(true);
-  const elementImage = card.querySelector('.element__image');
-  elementImage.src = item.link;
-  elementImage.alt = item.name;
-
-  card.querySelector('.element__title').textContent = item.name;
-
-  card.querySelector('.element__delete-button').addEventListener('click', () => {
-      card.remove();
-  });
-
-  card.querySelector('.element__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__like_active')
-});
-
-elementImage.addEventListener('click', () => {
-  popupImageElement.src = item.link;
-  popupImageElement.alt = item.name;
-  popupImageElementTitle.textContent = item.name;
-
-  openPopup(popupImage);
-});
-
-  return card;
+  const cardElement = new Card(item.name, item.link, '#template-element', openPopup).generateCard();
+  return cardElement;
 }
 
 // открытие и закрытие попапов
@@ -84,19 +56,24 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePopupEsc);
 }
 
-//открытие попапа редактирования профиля
-popupOpenButtonElement.addEventListener('click', () => {
+// Открытие попапа профиля
+function openPopupProfileOnClick() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupElementProfile);
-});
+  profileFormValidate.resetValidation();
+}
 
-//открытие попапа добавления элементов
-popupOpenAddButtonElement.addEventListener('click', () => {
+popupOpenButtonElement.addEventListener('click', openPopupProfileOnClick);
 
+//открытие попапа элемента
+function openPopupCardOnClick() {
   openPopup(popupElementCard);
-  disableButtonElement(buttonSaveElement, 'popup__save-button_inactive');
-})
+  cardFormValidate.toggleButtonState();
+  cardFormValidate.resetValidation();
+}
+
+popupOpenAddButtonElement.addEventListener('click', openPopupCardOnClick);
 
 //Закрытие всех попапов
 const closeButtons = document.querySelectorAll('.popup__close');
@@ -136,15 +113,16 @@ function handleFormSubmitProfile(evt) {
 	closePopup(popupElementProfile);
 }
 
+
 function handlerFormSubmitCard(evt) {
   evt.preventDefault();
 
-  const card = createCard({ name: inputCardTitle.value, link: inputCardLink.value })
+  elementsContainer.prepend(createCard({ name: inputCardTitle.value, link: inputCardLink.value }));
 
-  elements.prepend(card);
-
-  evt.target.reset()
   closePopup(popupElementCard);
+
+  evt.target.reset();
+  cardFormValidate.toggleButtonState();
 }
 
 //отправка формы
