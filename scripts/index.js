@@ -43,9 +43,19 @@ function renderInitialCards(cardElements) {
 
 renderInitialCards(initialCards);
 
+// function createCard(item) {
+//   const cardElement = new Card(item.name, item.link, '#template-element', popupImage, popupImageElement, popupImageElementTitle, openPopup).generateCard();
+//   return cardElement;
+// }
 function createCard(item) {
-  const cardElement = new Card(item.name, item.link, '#template-element', popupImage, popupImageElement, popupImageElementTitle, openPopup).generateCard();
-  return cardElement;
+  return new Card(
+    item.name,
+    item.link,
+    '#template-element',
+    popupImage,
+    popupImageElement,
+    popupImageElementTitle,
+    openPopup).generateCard();
 }
 
 // открытие и закрытие попапов
