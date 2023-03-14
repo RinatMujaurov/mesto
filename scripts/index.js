@@ -6,12 +6,12 @@ import options from './options.js';
 const elementsContainer = document.querySelector('.elements');
 
 //общий попап
-const popupAll = Array.from(document.querySelectorAll('.popup'));
+const popups = Array.from(document.querySelectorAll('.popup'));
 
 //попап редактирования профиля
 const popupElementProfile = document.querySelector('.popup_type_profile');
-const popupOpenButtonElement = document.querySelector('.profile__edit-button');
-const formElementProfile = popupElementProfile.querySelector('.popup__form_type_profile');
+const profileOpenButton = document.querySelector('.profile__edit-button');
+const formElementProfile = document.forms['profile-info'];
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__about');
 const nameInput = formElementProfile.querySelector('.popup__input_data_name');
@@ -20,9 +20,14 @@ const jobInput = formElementProfile.querySelector('.popup__input_data_about');
 //попап добавления карточки
 const popupElementCard = document.querySelector('.popup_type_element');
 const popupOpenAddButtonElement = document.querySelector('.profile__add-button');
-const formElementCard = document.querySelector('.popup__form_type_element');
+const formElementCard = document.forms['element'];
 const inputCardLink = document.querySelector('.popup__input_data_link');
 const inputCardTitle = document.querySelector('.popup__input_data_title');
+
+//попап картинки
+const popupImage = document.querySelector('.popup_type_image');
+const popupImageElement = document.querySelector('.popup__image');
+const popupImageElementTitle = document.querySelector('.popup__title_type_image');
 
 const profileFormValidate = new FormValidator(options, formElementProfile);
 const cardFormValidate = new FormValidator(options, formElementCard);
@@ -31,17 +36,15 @@ profileFormValidate.enableValidation();
 cardFormValidate.enableValidation();
 
 //вывод карточек на страницу
+
 function renderInitialCards(cardElements) {
-  elementsContainer.append(
-      ...cardElements.map((cardElement) => {
-          return createCard(cardElement);
-      })
-  );
+  elementsContainer.append(...cardElements.map(createCard));
 }
+
 renderInitialCards(initialCards);
 
 function createCard(item) {
-  const cardElement = new Card(item.name, item.link, '#template-element', openPopup).generateCard();
+  const cardElement = new Card(item.name, item.link, '#template-element', popupImage, popupImageElement, popupImageElementTitle, openPopup).generateCard();
   return cardElement;
 }
 
@@ -64,26 +67,14 @@ function openPopupProfileOnClick() {
   profileFormValidate.resetValidation();
 }
 
-popupOpenButtonElement.addEventListener('click', openPopupProfileOnClick);
+profileOpenButton.addEventListener('click', openPopupProfileOnClick);
 
 //открытие попапа элемента
 function openPopupCardOnClick() {
   openPopup(popupElementCard);
-  cardFormValidate.toggleButtonState();
-  cardFormValidate.resetValidation();
 }
 
 popupOpenAddButtonElement.addEventListener('click', openPopupCardOnClick);
-
-//Закрытие всех попапов
-const closeButtons = document.querySelectorAll('.popup__close');
-
-closeButtons.forEach((button) => {
-  // находим 1 раз ближайший к крестику попап
-  const popup = button.closest('.popup');
-  // устанавливаем обработчик закрытия на крестик
-  button.addEventListener('click', () => closePopup(popup));
-});
 
 //функция закрытия попапа по нажатию на Esc
 function closePopupEsc(evt) {
@@ -94,7 +85,7 @@ function closePopupEsc(evt) {
 }
 
 //закрытие попапов по нажатию на оверлей
-popupAll.forEach((popupEl) => {
+popups.forEach((popupEl) => {
   popupEl.addEventListener('mouseup', (event) => {
     const closePopupByClickOnOverlay = event.target.classList;
     if (closePopupByClickOnOverlay.contains('popup') || closePopupByClickOnOverlay.contains('popup__close')) {
@@ -112,7 +103,6 @@ function handleFormSubmitProfile(evt) {
 
 	closePopup(popupElementProfile);
 }
-
 
 function handlerFormSubmitCard(evt) {
   evt.preventDefault();

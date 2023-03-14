@@ -1,11 +1,11 @@
 class Card {
-  constructor(name, link, templateSelector, openPopup) {
+  constructor(name, link, templateSelector, popupImage, popupImageElement, popupImageElementTitle, openPopup) {
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector;
-    this._popupImage = document.querySelector('.popup_type_image');
-    this._popupImageElement = document.querySelector('.popup__image');
-    this._popupImageElementTitle = document.querySelector('.popup__title_type_image');
+    this._popupImage = popupImage;
+    this._popupImageElement = popupImageElement;
+    this._popupImageElementTitle = popupImageElementTitle;
     this._openPopup = openPopup;
   }
 
@@ -52,17 +52,16 @@ _handleDeleteCardOnClick() {
 }
 
 _setEventListeners() {
+  this._elementDeleteCard.addEventListener('click', () => {
+      this._handleDeleteCardOnClick();
+  });
   this._elementLikeImage.addEventListener('click', () => {
       this._handleLikeImageOnClick();
   });
   this._elementImage.addEventListener('click', () => {
-      this._handleImageOnClick();
-  });
-  this._elementDeleteCard.addEventListener('click', () => {
-      this._handleDeleteCardOnClick();
+        this._handleImageOnClick();
   });
 }
 }
-
 
 export default Card

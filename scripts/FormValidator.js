@@ -47,21 +47,6 @@ _setEventListeners() {
   });
 }
 
-//функция сброса кнопки
-// disableButtonElement() {
-//   this._buttonElement.classList.add(this._inactiveButtonClass);
-//   this._buttonElement.disabled = true;
-// }
-
-// toggleButtonState() {
-//   if (this._hasInvalidInput(inputList)) {
-//     this._disableButtonElement();
-// } else {
-//      this._buttonElement.classList.remove(this._inactiveButtonClass);
-//      this._buttonElement.disabled = false;
-// }
-// }
-
 toggleButtonState() {
   if (this._hasInvalidInput()) {
       this._buttonElement.setAttribute('disabled', '');
@@ -75,20 +60,6 @@ toggleButtonState() {
 enableValidation() {
   this._setEventListeners();
 }
-
-// const enableValidation = (object) => {
-//   const formList = Array.from(document.querySelectorAll(object.formSelector));
-//   formList.forEach((formElement) => {
-//     formElement.addEventListener('submit', function (evt) {
-//       evt.preventDefault();
-//     });
-
-//   const fieldsetList = Array.from(formElement.querySelectorAll(object.fieldSetClass));
-//   fieldsetList.forEach((fieldSet) => {
-//       setEventListeners(fieldSet, object);
-//     });
-//   });
-// };
 
 _hasInvalidInput() {
   return this._inputList.some((input) => {
