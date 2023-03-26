@@ -1,12 +1,12 @@
 class Card {
-  constructor(name, link, templateSelector, popupImage, popupImageElement, popupImageElementTitle, openPopup) {
+  constructor(name, link, templateSelector, clickImageHandler) {
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector;
-    this._popupImage = popupImage;
-    this._popupImageElement = popupImageElement;
-    this._popupImageElementTitle = popupImageElementTitle;
-    this._openPopup = openPopup;
+    // this._popupImage = popupImage;
+    // this._popupImageElement = popupImageElement;
+    // this._popupImageElementTitle = popupImageElementTitle;
+    this._clickImageHandler = clickImageHandler;
   }
 
   _getTemplate() {
@@ -41,10 +41,7 @@ _handleLikeImageOnClick() {
 }
 
 _handleImageOnClick() {
-  this._popupImageElement.src = this._link;
-  this._popupImageElement.alt = this._name;
-  this._popupImageElementTitle.textContent = this._name;
-  this._openPopup(this._popupImage);
+  this._clickImageHandler({ link: this._link, name: this._name });
 }
 
 _handleDeleteCardOnClick() {
