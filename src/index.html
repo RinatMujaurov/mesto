@@ -8,22 +8,20 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css" />
-    <script type="module" src="./scripts/index.js"></script>
   </head>
   <body class="root">
     <div class="page">
       <header class="header">
         <img
-          src="./images/header-logo.svg"
-          alt="логотип сайта"
+          src="<%=require('./images/header-logo.svg')%>"
+          alt="логотип сайта" 
           class="header__logo"
         />
       </header>
       <main class="content">
         <section class="profile">
           <img
-            src="./images/profile-avatar-kusto.jpg"
+            src="<%=require('./images/profile-avatar-kusto.jpg')%>"
             alt="аватар"
             class="profile__avatar"
           />
@@ -36,7 +34,7 @@
           </div>
           <button class="profile__add-button" type="button">
             <img
-              src="./images/Vector.svg"
+              src="<%=require('./images/Vector.svg')%>"
               alt="кнопка добавления изображений"
               class="profile__button-img"
             />
