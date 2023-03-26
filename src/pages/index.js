@@ -53,6 +53,7 @@ const cardSection = new Section(cardSectionData, selector);
 cardSection.renderItems();
 
 function openPopupCardOnClick() {
+  cardFormValidate.resetValidation();
   popupAddCard.open();
 }
 
