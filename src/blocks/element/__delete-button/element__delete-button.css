@@ -11,6 +11,7 @@
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-color: rgba(28, 28, 28, 0);
+  display: none;
 }
 
 .element__delete-button:hover {

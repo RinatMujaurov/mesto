@@ -1,19 +1,25 @@
+import Api from "../components/Api.js";
+import PopupDeleteCard from "../components/PopupDeleteCard.js";
+import {
+  apiBaseUrl,
+  apiToken,
+  popupTypeDeleteCard,
+  likeActive,
+} from "../utils/data.js";
+
 class Card {
-  constructor(name, link, templateSelector, clickImageHandler) {
-    this._name = name;
-    this._link = link;
+  constructor(item, user, templateSelector, clickImageHandler) {
+    this._item = item;
+    this._user = user;
     this._templateSelector = templateSelector;
-    // this._popupImage = popupImage;
-    // this._popupImageElement = popupImageElement;
-    // this._popupImageElementTitle = popupImageElementTitle;
     this._clickImageHandler = clickImageHandler;
+    this._api = new Api(apiBaseUrl, apiToken);
   }
 
   _getTemplate() {
     const cardElement = document
       .querySelector(this._templateSelector)
-      .content
-      .querySelector('.element')
+      .content.querySelector(".element")
       .cloneNode(true);
 
     return cardElement;
@@ -21,44 +27,83 @@ class Card {
 
   generateCard() {
     this._element = this._getTemplate();
-    this._elementImage = this._element.querySelector('.element__image');
-    this._elementTitle = this._element.querySelector('.element__title');
-    this._elementLikeImage = this._element.querySelector('.element__like');
-    this._elementDeleteCard = this._element.querySelector('.element__delete-button');
+    this._element.setAttribute("id", "card_" + this._item._id);
+    this._elementImage = this._element.querySelector(".element__image");
+    this._elementTitle = this._element.querySelector(".element__title");
+    this._elementLikeImage = this._element.querySelector(".element__like");
+    this._elementLikeCounter = this._element.querySelector(
+      ".element__like-counter"
+    );
 
+    this._elementDeleteCard = this._element.querySelector(
+      ".element__delete-button"
+    );
 
-    this._elementImage.src = this._link;
-    this._elementImage.alt = this._name;
-    this._elementTitle.textContent = this._name;
+    if (this._item.owner._id === this._user._id) {
+      this._elementDeleteCard.style.display = "block";
+    }
+
+    this._elementImage.src = this._item.link;
+    this._elementImage.alt = this._item.name;
+    this._elementTitle.textContent = this._item.name;
+    this._elementLikeCounter.textContent = this._item.likes.length;
+
+    this._item.likes.forEach((like) => {
+      if (like._id === this._user._id) {
+        this._elementLikeImage.classList.add(likeActive);
+      }
+    });
 
     this._setEventListeners(this._elementImage);
 
     return this._element;
-}
+  }
 
-_handleLikeImageOnClick() {
-  this._elementLikeImage.classList.toggle('element__like_active')
-}
+  _handleLikeImageOnClick() {
+    if (this._elementLikeImage.classList.contains(likeActive)) {
+      this._api
+        .deleteLike(this._item._id)
+        .then((card) => {
+          this._elementLikeCounter.textContent = card.likes.length;
+          this._elementLikeImage.classList.remove(likeActive);
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
+        });
+    } else {
+      this._api
+        .putLike(this._item._id)
+        .then((card) => {
+          this._elementLikeCounter.textContent = card.likes.length;
+          this._elementLikeImage.classList.add(likeActive);
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
+        });
+    }
+  }
 
-_handleImageOnClick() {
-  this._clickImageHandler({ link: this._link, name: this._name });
-}
+  _handleImageOnClick() {
+    this._clickImageHandler({ link: this._item.link, name: this._item.name });
+  }
 
-_handleDeleteCardOnClick() {
-  this._element.remove();
-}
+  _handleDeletePopupCardOnClick() {
+    const popup = new PopupDeleteCard(popupTypeDeleteCard, this._item._id);
+    popup.setEventListeners();
+    popup.open();
+  }
 
-_setEventListeners() {
-  this._elementDeleteCard.addEventListener('click', () => {
-      this._handleDeleteCardOnClick();
-  });
-  this._elementLikeImage.addEventListener('click', () => {
+  _setEventListeners() {
+    this._elementDeleteCard.addEventListener("click", () => {
+      this._handleDeletePopupCardOnClick();
+    });
+    this._elementLikeImage.addEventListener("click", () => {
       this._handleLikeImageOnClick();
-  });
-  this._elementImage.addEventListener('click', () => {
-        this._handleImageOnClick();
-  });
-}
+    });
+    this._elementImage.addEventListener("click", () => {
+      this._handleImageOnClick();
+    });
+  }
 }
 
-export default Card
+export default Card;

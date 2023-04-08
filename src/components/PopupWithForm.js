@@ -1,11 +1,16 @@
 import Popup from "./Popup.js";
+import { options } from "../utils/data.js";
 
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, submitForm) {
     super(popupSelector);
     this._submitForm = submitForm;
-    this._form = this._popup.querySelector('.popup__form')
-    this._inputs = this._popup.querySelectorAll('.popup__input')
+    this._form = this._popup.querySelector(".popup__form");
+    this._inputs = this._popup.querySelectorAll(".popup__input");
+    this._submitButton = this._popup.querySelector(
+      options.submitButtonSelector
+    );
+    this._submitButtonName = this._submitButton.innerHTML;
   }
 
   _getInputValues() {
@@ -24,15 +29,18 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._form.addEventListener('submit', (evt) => {
+    this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._submitForm(this._getInputValues());
-      this.close();
+      this._submitForm(this._getInputValues(), this);
+      this._submitButton.textContent = "Сохранение...";
     });
   }
 
-   close() {
+  close() {
     this._form.reset();
     super.close();
+    setTimeout(() => {
+      this._submitButton.textContent = this._submitButtonName;
+    }, "600"); //анимация плавного закрытия попапа 500мс
   }
 }
