@@ -1,8 +1,6 @@
 .popup__delete-button {
-	margin: 0;
+	margin: 38px 36px 36px 36px;
 	padding: 0;
-	margin-top: 18px;
-  margin-bottom: 37px;
   max-width: 358px;
   width: 100%;
 	min-height: 50px;
@@ -14,9 +12,9 @@
 
 @media (max-width: 679px) {
 	.popup__delete-button {
+     margin: 15px 18px 25px 18px;
+     max-width: 246px;
      min-height: 46px;
-		 margin-top: 15px;
-     margin-bottom: 25px;
      font-size: 14px;
      line-height: 17px;
 	}
