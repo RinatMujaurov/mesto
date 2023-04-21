@@ -1,138 +1,75 @@
 export default class Api {
   constructor(baseUrl, token) {
     this._baseUrl = baseUrl;
-    this._token = token;
+    this._headers = {
+      authorization: token,
+      "Content-Type": "application/json",
+    };
+  }
+
+  _getResponseData(res) {
+    if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
   }
 
   getUserInfo() {
     return fetch(this._baseUrl + "/users/me", {
       method: "GET",
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+      headers: this._headers,
+    }).then((res) => this._getResponseData(res));
   }
 
   setUserInfo(data) {
     return fetch(this._baseUrl + "/users/me", {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._getResponseData(res));
   }
 
   getInitialCards() {
     return fetch(this._baseUrl + "/cards", {
       method: "GET",
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+      headers: this._headers,
+    }).then((res) => this._getResponseData(res));
   }
 
   addCard(data) {
     return fetch(this._baseUrl + "/cards", {
       method: "POST",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._getResponseData(res));
   }
 
   deleteCard(cardId) {
     return fetch(this._baseUrl + "/cards/" + cardId, {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+      headers: this._headers,
+    }).then((res) => this._getResponseData(res));
   }
 
   putLike(cardId) {
     return fetch(this._baseUrl + "/cards/" + cardId + "/likes", {
       method: "PUT",
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+      headers: this._headers,
+    }).then((res) => this._getResponseData(res));
   }
 
   deleteLike(cardId) {
     return fetch(this._baseUrl + "/cards/" + cardId + "/likes", {
       method: "DELETE",
-      headers: {
-        authorization: this._token,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+      headers: this._headers,
+    }).then((res) => this._getResponseData(res));
   }
 
   setAvatar(data) {
     return fetch(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._getResponseData(res));
   }
 }

@@ -1,46 +1,33 @@
-import Api from "../components/Api.js";
-import PopupDeleteCard from "../components/PopupDeleteCard.js";
-import {
-  apiBaseUrl,
-  apiToken,
-  popupTypeDeleteCard,
-  likeActive,
-} from "../utils/data.js";
-
 class Card {
-  constructor(item, user, templateSelector, clickImageHandler) {
+  constructor(item, user, templateSelector, clickImageHandler, clickDeleteHandler, clickLikeHandler) {
     this._item = item;
     this._user = user;
     this._templateSelector = templateSelector;
     this._clickImageHandler = clickImageHandler;
-    this._api = new Api(apiBaseUrl, apiToken);
+    this._clickDeleteHandler = clickDeleteHandler;
+    this._clickLikeHandler = clickLikeHandler;
+    this._isLiked = item.likes.some((like) => {
+      return like._id === this._user.id;
+    });
   }
 
   _getTemplate() {
-    const cardElement = document
+    return document
       .querySelector(this._templateSelector)
       .content.querySelector(".element")
       .cloneNode(true);
-
-    return cardElement;
   }
 
   generateCard() {
     this._element = this._getTemplate();
-    this._element.setAttribute("id", "card_" + this._item._id);
     this._elementImage = this._element.querySelector(".element__image");
     this._elementTitle = this._element.querySelector(".element__title");
     this._elementLikeImage = this._element.querySelector(".element__like");
-    this._elementLikeCounter = this._element.querySelector(
-      ".element__like-counter"
-    );
+    this._elementLikeCounter = this._element.querySelector(".element__like-counter");
+    this._elementDeleteCard = this._element.querySelector(".element__delete-button");
 
-    this._elementDeleteCard = this._element.querySelector(
-      ".element__delete-button"
-    );
-
-    if (this._item.owner._id === this._user._id) {
-      this._elementDeleteCard.style.display = "block";
+    if (this._item.owner._id === this._user.id) {
+      this._elementDeleteCard.classList.add("element__delete-button_visible");
     }
 
     this._elementImage.src = this._item.link;
@@ -48,39 +35,31 @@ class Card {
     this._elementTitle.textContent = this._item.name;
     this._elementLikeCounter.textContent = this._item.likes.length;
 
-    this._item.likes.forEach((like) => {
-      if (like._id === this._user._id) {
-        this._elementLikeImage.classList.add(likeActive);
-      }
-    });
+    if (this._isLiked) {
+      this._elementLikeImage.classList.add("element__like_active");
+    }
 
     this._setEventListeners(this._elementImage);
-
     return this._element;
   }
 
+  _removeCard() {
+    this._element.remove();
+  }
+
+  _setLike(counter) {
+     if (counter) {
+       this._isLiked = true;
+       this._elementLikeImage.classList.add("element__like_active");
+     } else {
+       this._isLiked = false;
+       this._elementLikeImage.classList.remove("element__like_active");
+     }
+    this._elementLikeCounter.textContent = counter;
+  }
+
   _handleLikeImageOnClick() {
-    if (this._elementLikeImage.classList.contains(likeActive)) {
-      this._api
-        .deleteLike(this._item._id)
-        .then((card) => {
-          this._elementLikeCounter.textContent = card.likes.length;
-          this._elementLikeImage.classList.remove(likeActive);
-        })
-        .catch((err) => {
-          console.log(err); // выведем ошибку в консоль
-        });
-    } else {
-      this._api
-        .putLike(this._item._id)
-        .then((card) => {
-          this._elementLikeCounter.textContent = card.likes.length;
-          this._elementLikeImage.classList.add(likeActive);
-        })
-        .catch((err) => {
-          console.log(err); // выведем ошибку в консоль
-        });
-    }
+    this._clickLikeHandler(this._item._id, this._isLiked, this._setLike.bind(this));
   }
 
   _handleImageOnClick() {
@@ -88,9 +67,7 @@ class Card {
   }
 
   _handleDeletePopupCardOnClick() {
-    const popup = new PopupDeleteCard(popupTypeDeleteCard, this._item._id);
-    popup.setEventListeners();
-    popup.open();
+    this._clickDeleteHandler(this._item._id, this._removeCard.bind(this));
   }
 
   _setEventListeners() {

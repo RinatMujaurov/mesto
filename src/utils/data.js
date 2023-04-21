@@ -35,5 +35,3 @@ export const popupTypeDeleteCard = ".popup_type_delete-card";
 export const popupDeleteButton = document.querySelector(
   ".popup__delete-button"
 );
-
-export const likeActive = "element__like_active";

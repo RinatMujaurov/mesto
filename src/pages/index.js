@@ -4,6 +4,7 @@ import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import UserInfo from "../components/UserInfo.js";
 import {
   popupOpenEditAvatar,
@@ -21,11 +22,9 @@ import {
   popupEditProfileSelector,
   nameSelector,
   aboutSelector,
-  avatarSelector,
+  avatarSelector, popupTypeDeleteCard,
 } from "../utils/data.js";
 import "./index.css";
-
-let currentUser;
 
 const profileFormValidate = new FormValidator(options, formElementProfile);
 const cardFormValidate = new FormValidator(options, formElementCard);
@@ -34,85 +33,110 @@ profileFormValidate.enableValidation();
 cardFormValidate.enableValidation();
 
 const api = new Api(apiBaseUrl, apiToken);
-
-let cardSectionData = {
-  items: [],
-  renderer: createCard,
-};
-
-let cardSection = new Section(cardSectionData, selector);
-
+const cardList = new Section(createCard, selector);
 const userInfo = new UserInfo({ nameSelector, aboutSelector, avatarSelector });
 
-const popupWithImage = new PopupWithImage(popupImage);
-popupWithImage.setEventListeners();
-
-const submitAddCardFormHandler = ({ name, link }, popup) => {
+const popupAddCardHandler = ({ name, link }) => {
+  popupAddCard.loadingButtonText(true);
   api
     .addCard({ name, link })
     .then((card) => {
-      cardSection.addItem(createCard(card, currentUser));
-      popup.close();
+      cardList.addItem(createCard(card, userInfo.getUserInfo()));
+      popupAddCard.close();
     })
-    .catch((err) => {
-      console.log(err); // выведем ошибку в консоль
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupAddCard.loadingButtonText(false);
     });
 };
 
-const submitEditAvatar = ({ avatar }, popup) => {
+const popupDeleteCardHandler = (id, removeCard) => {
+  popupDeleteCard.loadingButtonText(true);
+  api
+    .deleteCard(id)
+    .then(() => {
+      removeCard();
+      popupDeleteCard.close();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupDeleteCard.loadingButtonText(false);
+    });
+};
+
+const popupEditAvatarHandler = ({ avatar }) => {
   api
     .setAvatar({ avatar })
     .then((user) => {
-      document.querySelector(avatarSelector).src = user.avatar;
-      popup.close();
+      userInfo.setUserInfo(user)
+      popupSetAvatar.close();
     })
-    .catch((err) => {
-      console.log(err); // выведем ошибку в консоль
-    });
+    .catch((err) => console.log(err));
 };
 
-const popupAddCard = new PopupWithForm(
-  popupAddCardSelector,
-  submitAddCardFormHandler
-);
-
-popupAddCard.setEventListeners();
-
-const popupSetAvatar = new PopupWithForm(
-  popupEditAvatarSelector,
-  submitEditAvatar
-);
-
-popupSetAvatar.setEventListeners();
-
-const submitProfileFormHandler = ({ name, about }, popup) => {
+const popupEditProfileHandler = ({ name, about }) => {
+  popupEditProfile.loadingButtonText(true);
   api
     .setUserInfo({ name, about })
     .then((user) => {
       userInfo.setUserInfo(user);
-      popup.close();
+      popupEditProfile.close();
     })
-    .catch((err) => {
-      console.log(err); // выведем ошибку в консоль
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupEditProfile.loadingButtonText(false);
     });
 };
-
-const popupEditProfile = new PopupWithForm(
-  popupEditProfileSelector,
-  submitProfileFormHandler
-);
-popupEditProfile.setEventListeners();
 
 const clickImageHandler = ({ link, name }) => {
   popupWithImage.open({ link, name });
 };
 
-function createCard(item, user) {
+const clickDeleteHandler = (id, removeCard) => {
+  popupDeleteCard.open(id, removeCard);
+};
+
+const clickLikeHandler = (id, isLiked, setLike) => {
+  if (isLiked) {
+    api
+      .deleteLike(id)
+      .then((card) => {
+        setLike(card.likes.length);
+      })
+      .catch((err) => console.log(err));
+  } else {
+    api
+      .putLike(id)
+      .then((card) => {
+        setLike(card.likes.length);
+      })
+      .catch((err) => console.log(err));
+  }
+};
+
+const popupWithImage = new PopupWithImage(popupImage);
+popupWithImage.setEventListeners();
+
+const popupAddCard = new PopupWithForm(popupAddCardSelector, popupAddCardHandler);
+popupAddCard.setEventListeners();
+
+const popupDeleteCard = new PopupWithConfirmation(popupTypeDeleteCard, popupDeleteCardHandler);
+popupDeleteCard.setEventListeners();
+
+const popupSetAvatar = new PopupWithForm(popupEditAvatarSelector, popupEditAvatarHandler);
+popupSetAvatar.setEventListeners();
+
+const popupEditProfile = new PopupWithForm(popupEditProfileSelector, popupEditProfileHandler);
+popupEditProfile.setEventListeners();
+
+function createCard(item) {
   return new Card(
     item,
-    user,
+    userInfo.getUserInfo(),
     "#template-element",
-    clickImageHandler
+    clickImageHandler,
+    clickDeleteHandler,
+    clickLikeHandler
   ).generateCard();
 }
 
@@ -138,29 +162,9 @@ function openPopupProfileOnClick() {
 
 profileOpenButton.addEventListener("click", openPopupProfileOnClick);
 
-api
-  .getUserInfo()
-  .then((user) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([user, cards]) => {
     userInfo.setUserInfo(user);
-
-    currentUser = user;
-
-    api
-      .getInitialCards()
-      .then((cards) => {
-        cardSectionData = {
-          items: cards,
-          user: currentUser,
-          renderer: createCard,
-        };
-
-        cardSection = new Section(cardSectionData, selector);
-        cardSection.renderItems();
-      })
-      .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
-      });
+    cardList.renderItems(cards);
   })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+  .catch((err) => console.log(err));

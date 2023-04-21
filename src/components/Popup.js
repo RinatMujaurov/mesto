@@ -16,16 +16,16 @@ export default class Popup {
 
   _handleEscClose(evt) {
     if (evt.key === 'Escape') {
-          this.close();
-        }
+      this.close();
+    }
   }
 
   setEventListeners() {
-    this._popup.addEventListener('mouseup', (event) => {
-          const closePopupByClickOnOverlay = event.target.classList;
-          if (closePopupByClickOnOverlay.contains('popup') || closePopupByClickOnOverlay.contains('popup__close')) {
-            this.close();
-          }
-        });
+    this._popup.addEventListener('mouseup', (e) => {
+      const closePopupByClickOnOverlay = e.target.classList;
+      if (closePopupByClickOnOverlay.contains('popup') || closePopupByClickOnOverlay.contains('popup__close')) {
+        this.close();
+      }
+    });
   }
 }
