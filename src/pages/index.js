@@ -22,7 +22,8 @@ import {
   popupEditProfileSelector,
   nameSelector,
   aboutSelector,
-  avatarSelector, popupTypeDeleteCard,
+  avatarSelector,
+  popupTypeDeleteCard,
 } from "../utils/data.js";
 import "./index.css";
 
@@ -65,13 +66,17 @@ const popupDeleteCardHandler = (id, removeCard) => {
 };
 
 const popupEditAvatarHandler = ({ avatar }) => {
+  popupSetAvatar.loadingButtonText(true);
   api
     .setAvatar({ avatar })
     .then((user) => {
-      userInfo.setUserInfo(user)
+      userInfo.setUserInfo(user);
       popupSetAvatar.close();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupSetAvatar.loadingButtonText(false);
+    });
 };
 
 const popupEditProfileHandler = ({ name, about }) => {
@@ -117,16 +122,29 @@ const clickLikeHandler = (id, isLiked, setLike) => {
 const popupWithImage = new PopupWithImage(popupImage);
 popupWithImage.setEventListeners();
 
-const popupAddCard = new PopupWithForm(popupAddCardSelector, popupAddCardHandler);
+const popupAddCard = new PopupWithForm(
+  popupAddCardSelector,
+  popupAddCardHandler,
+  "Создать"
+);
 popupAddCard.setEventListeners();
 
-const popupDeleteCard = new PopupWithConfirmation(popupTypeDeleteCard, popupDeleteCardHandler);
+const popupDeleteCard = new PopupWithConfirmation(
+  popupTypeDeleteCard,
+  popupDeleteCardHandler
+);
 popupDeleteCard.setEventListeners();
 
-const popupSetAvatar = new PopupWithForm(popupEditAvatarSelector, popupEditAvatarHandler);
+const popupSetAvatar = new PopupWithForm(
+  popupEditAvatarSelector,
+  popupEditAvatarHandler
+);
 popupSetAvatar.setEventListeners();
 
-const popupEditProfile = new PopupWithForm(popupEditProfileSelector, popupEditProfileHandler);
+const popupEditProfile = new PopupWithForm(
+  popupEditProfileSelector,
+  popupEditProfileHandler
+);
 popupEditProfile.setEventListeners();
 
 function createCard(item) {

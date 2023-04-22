@@ -1,5 +1,12 @@
 class Card {
-  constructor(item, user, templateSelector, clickImageHandler, clickDeleteHandler, clickLikeHandler) {
+  constructor(
+    item,
+    user,
+    templateSelector,
+    clickImageHandler,
+    clickDeleteHandler,
+    clickLikeHandler
+  ) {
     this._item = item;
     this._user = user;
     this._templateSelector = templateSelector;
@@ -23,8 +30,12 @@ class Card {
     this._elementImage = this._element.querySelector(".element__image");
     this._elementTitle = this._element.querySelector(".element__title");
     this._elementLikeImage = this._element.querySelector(".element__like");
-    this._elementLikeCounter = this._element.querySelector(".element__like-counter");
-    this._elementDeleteCard = this._element.querySelector(".element__delete-button");
+    this._elementLikeCounter = this._element.querySelector(
+      ".element__like-counter"
+    );
+    this._elementDeleteCard = this._element.querySelector(
+      ".element__delete-button"
+    );
 
     if (this._item.owner._id === this._user.id) {
       this._elementDeleteCard.classList.add("element__delete-button_visible");
@@ -48,18 +59,21 @@ class Card {
   }
 
   _setLike(counter) {
-     if (counter) {
-       this._isLiked = true;
-       this._elementLikeImage.classList.add("element__like_active");
-     } else {
-       this._isLiked = false;
-       this._elementLikeImage.classList.remove("element__like_active");
-     }
+    if (this._isLiked) {
+      this._elementLikeImage.classList.remove("element__like_active");
+    } else {
+      this._elementLikeImage.classList.add("element__like_active");
+    }
+    this._isLiked = !this._isLiked;
     this._elementLikeCounter.textContent = counter;
   }
 
   _handleLikeImageOnClick() {
-    this._clickLikeHandler(this._item._id, this._isLiked, this._setLike.bind(this));
+    this._clickLikeHandler(
+      this._item._id,
+      this._isLiked,
+      this._setLike.bind(this)
+    );
   }
 
   _handleImageOnClick() {
