@@ -124,7 +124,7 @@ popupWithImage.setEventListeners();
 
 const popupAddCard = new PopupWithForm(
   popupAddCardSelector,
-  popupAddCardHandler,
+  popupAddCardHandler
 );
 popupAddCard.setEventListeners();
 
