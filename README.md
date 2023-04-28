@@ -1,18 +1,22 @@
-# Проект: Место
+# Project: Mesto
 
-Проектная работа Яндекс.Практикум по JavaScript
+Project work Yandex.Practicum with JavaScript
 
 
-## Технологии использованые при разработке проекта
+## Technologies used in the development of the project
 - HTML
 - CSS
 - Git
 - Flex
 - Grid Layout
-- Файловая структура БЭМ Nested
-- Использована методология БЭМ
+- BEM Nested file structure
+- Used BEM methodology
 - JavaScript
+- OOP
+- Node.js
+- Webpack
+- API
 
-https://rinatmujaurov.github.io/mesto/ 
+https://rinatmujaurov.github.io/mesto/
 
 
